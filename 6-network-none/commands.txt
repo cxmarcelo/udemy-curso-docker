@@ -1,0 +1,11 @@
+docker network ls
+#--net (net)
+
+## None network ##
+# ninguem consegue acessar
+# sem acesso internet
+# possivel acessar somente via terminal
+# util para processamentos internos com volumes
+
+docker container run -d --net none debian
+
