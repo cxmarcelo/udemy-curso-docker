@@ -1,0 +1,6 @@
+docker image ls
+docker image tag ex-simple-build cxmarcelo/simple-build:1.0
+
+docker login --username=username
+
+docker image push cxmarcelo/simple-build:1.0
