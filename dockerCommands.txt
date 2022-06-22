@@ -21,3 +21,15 @@ docker container list
 
 # docker container inspect
 
+docker image pull redis:latest
+docker image tag redis:latest cod3r-redis
+docker image rm redis:latest cod3r-redis
+
+
+# docker image pull
+# docker image ls / ps / list
+# docker image rm (name or hash)
+# docker image inspect tag
+# docker image tag (nome da tag que quer copiar) (nome da nova tag) 
+# docker image build (gerar imagens)
+# docker image push (publicar local ou dockerhub)
