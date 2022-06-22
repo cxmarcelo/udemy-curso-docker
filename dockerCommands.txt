@@ -1,0 +1,23 @@
+#Alguns comandos básicos
+
+# Teste alterando página
+# docker container run -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx
+# docker container run -p 8080:80 -v D:/projects/udemy-curso-docker/html:/usr/share/nginx/html nginx
+
+# docker container run -d --name ex-daemon-basic -p 8080:80 -v $D:/projects/udemy-curso-docker/html:/usr/share/nginx/html nginx
+# rodar em background
+
+docker container start ex-daemon-basic
+docker container restart ex-daemon-basic
+docker container stop ex-daemon-basic
+
+docker container ps
+docker container ls
+docker container list
+
+# flag -a -> listar todos criados
+
+# docker container logs ex-daemon-basic
+
+# docker container inspect
+
