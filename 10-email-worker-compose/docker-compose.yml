@@ -1,0 +1,72 @@
+version: '3'
+volumes:
+    data:
+networks:
+  database_net:
+  web_net:
+  queue_net:
+services:
+  db:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_PASSWORD=123456789
+    volumes:
+      # Volume dos dados
+      - data:/var/lib/posgresql/data
+      - ./scripts:/scripts
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - database_net
+  frontend:
+    image: nginx:1.13
+    volumes:
+      #site
+      - ./web:/usr/share/nginx/html/
+      #Configuração do proxy reverso
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    networks:
+      - web_net
+    depends_on:
+      - app
+  app:
+    image: python:3.6
+    volumes:
+      # Aplicação
+      - ./app:/app
+    working_dir: /app
+    command: bash ./app.sh
+    networks:
+      - database_net
+      - web_net
+      - queue_net
+    depends_on:
+      - db
+      - queue
+    environment: 
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=123456789
+      - DB_NAME=email_sender
+      - REDIS_HOST=queue
+  queue:
+    image: redis:3.2
+    networks:
+      - queue_net
+  worker:
+    build: worker
+    volumes:
+      # Worker
+      - ./worker:/worker
+    working_dir: /worker
+    command: worker.py
+    networks:
+      - queue_net
+    depends_on:
+      - queue
+    environment: 
+      - PYTHONUNBUFFERED=1
+      - REDIS_HOST=queue
+      
+
